@@ -26,7 +26,7 @@ func (h *TaskHandler) HandleTasks(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *TaskHandler) getTasks(w http.ResponseWriter, r *http.Request) {
+func (h *TaskHandler) getTasks(w http.ResponseWriter, _ *http.Request) {
 	tasks, err := h.service.GetTasks()
 	if err != nil {
 		http.Error(w, "Unable to get tasks", http.StatusInternalServerError)
@@ -34,7 +34,12 @@ func (h *TaskHandler) getTasks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(tasks)
+	err = json.NewEncoder(w).Encode(tasks)
+	if err != nil {
+		http.Error(w, "Unable to encode tasks", http.StatusInternalServerError)
+
+		return
+	}
 }
 
 func (h *TaskHandler) addTask(w http.ResponseWriter, r *http.Request) {
@@ -53,17 +58,4 @@ func (h *TaskHandler) addTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-}
-
-func (h *TaskHandler) HandleSingleTask(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-
-	case http.MethodPut:
-
-	case http.MethodDelete:
-
-	default:
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-	}
 }

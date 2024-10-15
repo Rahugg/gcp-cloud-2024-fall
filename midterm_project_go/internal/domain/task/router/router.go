@@ -7,6 +7,4 @@ import (
 
 func NewTaskRoutes(mux *http.ServeMux, taskHandler *handler.TaskHandler) {
 	mux.HandleFunc("/task", taskHandler.HandleTasks)
-
-	mux.HandleFunc("/task/", taskHandler.HandleSingleTask)
 }

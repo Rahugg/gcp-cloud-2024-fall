@@ -18,7 +18,12 @@ func NewRouter() *http.ServeMux {
 
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		msg := Message{Message: "Hello to task service"}
-		json.NewEncoder(w).Encode(msg)
+		err := json.NewEncoder(w).Encode(msg)
+		if err != nil {
+			http.Error(w, "Unable to encode message", http.StatusInternalServerError)
+
+			return
+		}
 	})
 
 	repo := repository.NewRepository()

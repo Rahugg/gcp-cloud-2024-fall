@@ -24,6 +24,7 @@ func (r *TaskRepository) GetTasks() ([]entity.Task, error) {
 	for _, task := range r.tasks {
 		tasks = append(tasks, task)
 	}
+
 	return tasks, nil
 }
 
@@ -32,5 +33,6 @@ func (r *TaskRepository) AddTask(task entity.Task) error {
 	defer r.mu.Unlock()
 
 	r.tasks[task.ID] = task
+
 	return nil
 }
