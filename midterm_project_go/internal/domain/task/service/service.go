@@ -9,6 +9,11 @@ type TaskService struct {
 	repo *repository.TaskRepository
 }
 
+type TaskServiceInterface interface {
+	GetTasks() ([]entity.Task, error)
+	AddTask(task entity.Task) error
+}
+
 func NewService(repo *repository.TaskRepository) *TaskService {
 	return &TaskService{repo: repo}
 }
