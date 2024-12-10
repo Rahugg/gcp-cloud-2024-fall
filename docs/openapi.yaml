@@ -1,0 +1,241 @@
+openapi: 3.0.0
+info:
+  title: Golang Event Management API
+  description: API for user registration, event creation, ticket purchasing, and notifications.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /:
+    get:
+      summary: Health check
+      description: Returns a welcome message to confirm the server is running.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Welcome to the Golang Event App!"
+
+  /users:
+    get:
+      summary: Get all users
+      description: Retrieve a list of all registered users.
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+    post:
+      summary: Register a new user
+      description: Create a new user account.
+      requestBody:
+        description: User registration details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input
+
+  /send-notification:
+    post:
+      summary: Send a notification
+      description: Send a notification to a user about an event.
+      requestBody:
+        description: Notification details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: Notification sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "Notification sent"
+                  message_id:
+                    type: string
+                    example: "1234567890"
+        '400':
+          description: Invalid input
+
+  /events:
+    get:
+      summary: Get all events
+      description: Retrieve a list of all events.
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+
+    post:
+      summary: Create a new event
+      description: Create a new event with the provided details.
+      requestBody:
+        description: Event details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid input
+
+  /tickets/purchase:
+    post:
+      summary: Purchase tickets for an event
+      description: Register for an event and purchase tickets.
+      requestBody:
+        description: Ticket purchase details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration'
+      responses:
+        '201':
+          description: Tickets purchased successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registration'
+        '400':
+          description: Invalid input
+        '404':
+          description: User or event not found
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "john_doe"
+        email:
+          type: string
+          example: "john@example.com"
+        password_hash:
+          type: string
+          example: "hashed_password"
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-06-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-06-01T10:00:00Z"
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "Tech Conference 2024"
+        description:
+          type: string
+          example: "An annual tech conference"
+        date_time:
+          type: string
+          format: date-time
+          example: "2024-12-01T09:00:00Z"
+        location:
+          type: string
+          example: "New York"
+        created_by:
+          type: integer
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          example: "2024-06-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2024-06-01T10:00:00Z"
+
+    Notification:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        event_id:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: "Your event is starting soon!"
+
+    Registration:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        user_id:
+          type: integer
+          example: 1
+        event_id:
+          type: integer
+          example: 1
+        registration_date:
+          type: string
+          format: date-time
+          example: "2024-06-01T10:00:00Z"
+        ticket_type:
+          type: string
+          example: "VIP"
+        number_of_tickets:
+          type: integer
+          example: 2

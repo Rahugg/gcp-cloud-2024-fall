@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-app
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - name: event-app
+          image: gcr.io/af-cloud-final/event-app:latest
