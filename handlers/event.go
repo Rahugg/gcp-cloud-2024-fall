@@ -8,7 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// GetAllEvents fetches all events from the database
 func GetAllEvents(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var events []models.Event

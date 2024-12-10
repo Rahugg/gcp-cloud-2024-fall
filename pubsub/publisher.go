@@ -35,7 +35,6 @@ func PublishNotification(ctx context.Context, projectID, topicID string, message
 		Data: msgData,
 	})
 
-	// Confirm message publication
 	id, err := result.Get(ctx)
 	if err != nil {
 		return err

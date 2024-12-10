@@ -8,7 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// GetAllUsers fetches all users from the database
 func GetAllUsers(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var users []models.User
@@ -20,7 +19,6 @@ func GetAllUsers(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// CreateUser adds a new user to the database
 func CreateUser(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var user models.User

@@ -12,7 +12,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// RegisterUser handles user registration
 func RegisterUser(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var registration models.Registration
@@ -28,7 +27,6 @@ func RegisterUser(db *gorm.DB) http.HandlerFunc {
 			return
 		}
 
-		// Publish notification to Pub/Sub
 		ctx := context.Background()
 		message := pubsub.NotificationMessage{
 			UserID:  registration.UserID,
@@ -45,7 +43,6 @@ func RegisterUser(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// CreateEvent handles event creation
 func CreateEvent(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var event models.Event
@@ -67,7 +64,6 @@ func CreateEvent(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// PurchaseTicket handles ticket purchasing for an event
 func PurchaseTicket(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var registration models.Registration
@@ -78,21 +74,18 @@ func PurchaseTicket(db *gorm.DB) http.HandlerFunc {
 
 		registration.RegistrationDate = time.Now()
 
-		// Check if the event exists
 		var event models.Event
 		if err := db.First(&event, registration.EventID).Error; err != nil {
 			http.Error(w, "Event not found", http.StatusNotFound)
 			return
 		}
 
-		// Check if the user exists
 		var user models.User
 		if err := db.First(&user, registration.UserID).Error; err != nil {
 			http.Error(w, "User not found", http.StatusNotFound)
 			return
 		}
 
-		// Save the registration
 		if err := db.Create(&registration).Error; err != nil {
 			http.Error(w, "Failed to register for event", http.StatusInternalServerError)
 			return

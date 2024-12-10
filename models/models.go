@@ -4,7 +4,6 @@ import (
 	"time"
 )
 
-// User entity
 type User struct {
 	ID           uint   `gorm:"primaryKey"`
 	Username     string `gorm:"unique"`
@@ -16,7 +15,6 @@ type User struct {
 	UpdatedAt    time.Time
 }
 
-// Event entity
 type Event struct {
 	ID          uint `gorm:"primaryKey"`
 	Title       string
@@ -28,7 +26,6 @@ type Event struct {
 	UpdatedAt   time.Time
 }
 
-// Registration entity
 type Registration struct {
 	ID               uint `gorm:"primaryKey"`
 	UserID           uint
@@ -38,7 +35,6 @@ type Registration struct {
 	NumberOfTickets  int
 }
 
-// Notification entity
 type Notification struct {
 	ID      uint `gorm:"primaryKey"`
 	UserID  uint
@@ -47,7 +43,6 @@ type Notification struct {
 	SentAt  time.Time
 }
 
-// Payment entity
 type Payment struct {
 	ID             uint `gorm:"primaryKey"`
 	RegistrationID uint
@@ -56,7 +51,6 @@ type Payment struct {
 	PaymentDate    time.Time
 }
 
-// Venue entity
 type Venue struct {
 	ID          uint `gorm:"primaryKey"`
 	Name        string
@@ -65,7 +59,6 @@ type Venue struct {
 	ContactInfo string
 }
 
-// Ticket entity
 type Ticket struct {
 	ID           uint `gorm:"primaryKey"`
 	EventID      uint
@@ -74,7 +67,6 @@ type Ticket struct {
 	Availability int
 }
 
-// Review entity
 type Review struct {
 	ID        uint `gorm:"primaryKey"`
 	EventID   uint
@@ -84,14 +76,12 @@ type Review struct {
 	CreatedAt time.Time
 }
 
-// Category entity
 type Category struct {
 	ID          uint `gorm:"primaryKey"`
 	Name        string
 	Description string
 }
 
-// EventCategory entity
 type EventCategory struct {
 	ID         uint `gorm:"primaryKey"`
 	EventID    uint

@@ -11,18 +11,14 @@ import (
 )
 
 func main() {
-	// Connect to the database and run migrations
 	dbConn := db.ConnectAndMigrate()
 
-	// Setup routes
 	r := routes.SetupRoutes(dbConn)
 
-	// Serve Swagger UI
 	r.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
-		httpSwagger.URL("/docs/openapi.yaml"), // Path to your OpenAPI spec
+		httpSwagger.URL("/docs/openapi.yaml"),
 	))
 
-	// Serve the OpenAPI spec file
 	fs := http.FileServer(http.Dir("./docs"))
 	r.PathPrefix("/docs/").Handler(http.StripPrefix("/docs/", fs))
 
